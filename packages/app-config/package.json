@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "name": "@space-miner/app-config",
+  "version": "1.0.0",
+  "description": "Configuration data for Space Miner apps.",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "pkg:main": "./src/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "babel src --out-dir dist --ignore __tests__"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0"
+  }
+}

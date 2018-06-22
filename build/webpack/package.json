@@ -1,0 +1,27 @@
+{
+  "private": true,
+  "name": "@space-miner/webpack",
+  "description": "Webpack configuration for running dev server and building Space Miner.",
+  "version": "1.0.0",
+  "license": "MIT",
+  "files": [
+    "bin",
+    "src"
+  ],
+  "bin": {
+    "run-webpack": "bin/build.js"
+  },
+  "main": "src/index.js",
+  "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "copy-webpack-plugin": "^4.5.1",
+    "raw-loader": "^0.5.1",
+    "react-hot-loader": "^4.2.0",
+    "uglifyjs-webpack-plugin": "^1.2.5",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.6.0",
+    "webpack-bundle-analyzer": "^2.11.1",
+    "webpack-dev-server": "^3.1.3"
+  }
+}

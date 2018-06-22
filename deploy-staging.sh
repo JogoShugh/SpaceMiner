@@ -1,1 +1,0 @@
-modulus deploy -p spaceminerstg

@@ -1,0 +1,104 @@
+version: "3.6"
+
+services:
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    networks:
+      - webnet
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: on-failure
+
+  deps:
+    build:
+      context: .
+      dockerfile: docker/build.Dockerfile
+      args:
+        NODE_ENV: development
+    working_dir: /app
+    volumes:
+      - .:/app
+
+  web:
+    image: node:10-alpine
+    working_dir: /app/apps/web
+    environment:
+      VIRTUAL_HOST: localhost
+      API_HOST: api.localhost
+    volumes:
+      - .:/app
+    entrypoint:
+      - yarn
+      - start:dev
+    depends_on:
+      - deps
+      - api
+      - nginx-proxy
+    networks:
+      - webnet
+    ports:
+      - "9000:80"
+
+  api:
+    image: node:10-alpine
+    working_dir: /app/apps/api
+    volumes:
+      - .:/app
+    depends_on:
+      - deps
+      - nginx-proxy
+      - mongodb
+    entrypoint:
+      - yarn
+      - start:dev
+    networks:
+      - webnet
+      - backend-net
+    ports:
+      - "9001:80"
+    environment:
+      VIRTUAL_HOST: api.localhost
+      DB_USERNAME: root
+      DB_PASSWORD: example
+      DB_HOST: mongodb
+
+  mongodb:
+    image: mongo
+    networks:
+      - backend-net
+    hostname: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - data-db:/data/db
+    entrypoint:
+      - mongod
+      - --bind_ip_all
+
+  mongodb-admin:
+    image: mrvautin/adminmongo
+    depends_on:
+      - mongodb
+    ports:
+      - "9002:1234"
+    networks:
+      - webnet
+      - backend-net
+    environment:
+      VIRTUAL_HOST: dba.localhost
+
+networks:
+  webnet:
+  backend-net:
+
+volumes:
+  data-db:

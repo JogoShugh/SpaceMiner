@@ -2,6 +2,8 @@
 
 SpaceMiner is a tool to help beginner programming students learn JavaScript and programming concepts in face-to-face or remote environments, with peer collaboration and mentor/teacher assistance.
 
+See [Getting Started](./docs/getting-started.md) for details on developing/running locally.
+
 ## Questions we're trying to address
 
 * How can a beginner get started quickly, and within one hour of coding for the first time produce a game that's:

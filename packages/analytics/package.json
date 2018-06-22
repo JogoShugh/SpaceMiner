@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "name": "@space-miner/analytics",
+  "version": "1.0.0",
+  "description": "Capture UI interactions, state, and contextual data from components.",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "pkg:main": "./src/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "babel src --out-dir dist --ignore __tests__"
+  },
+  "peerDependencies": {
+    "react": "^16.3.2"
+  },
+  "dependencies": {
+    "prop-types": "^15.6.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "enzyme": "^3.3.0",
+    "lodash": "^4.17.10"
+  }
+}

@@ -1,0 +1,10 @@
+**/node_modules
+.eslint*
+.git*
+.editorconfig
+.nvmrc
+.prettier*
+**/dist
+docker/
+stack.dev.yml
+stack.production.yml

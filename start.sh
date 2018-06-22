@@ -1,1 +1,0 @@
-ROOT_URL=http://supersonic-box-113463.nitrousapp.com IMAGES_BASE=/home/action/SpaceMiner/public/images/ /usr/local/bin/meteor

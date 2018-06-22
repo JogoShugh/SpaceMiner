@@ -1,0 +1,92 @@
+version: "3.6"
+
+services:
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    networks:
+      - webnet
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: on-failure
+
+  web:
+    image: andrewcodes/space-miner-web:latest
+    depends_on:
+      - api
+      - nginx-proxy
+    networks:
+      - webnet
+    ports:
+      - "9000:80"
+    environment:
+      WEB_PORT: 80
+      NODE_ENV: production
+      VIRTUAL_HOST: spaceminer.andrew.codes
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      update_config:
+        parallelism: 2
+        delay: 10s
+        order: stop-first
+
+  api:
+    image: andrewcodes/space-miner-api:latest
+    depends_on:
+      - db
+      - nginx-proxy
+    networks:
+      - webnet
+      - backend
+    ports:
+      - "9001:80"
+    environment:
+      NODE_ENV: production
+      VIRTUAL_HOST: spaceminer-api.andrew.codes
+      API_PORT: 80
+      DB_USERNAME: $DB_USERNAME
+      DB_PASSWORD: $DB_PASSWORD
+      DB_HOST: mongodb
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      update_config:
+        parallelism: 2
+        delay: 10s
+        order: stop-first
+
+  db:
+    image: mongo
+    networks:
+      - backend
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: $DB_USERNAME
+      MONGO_INITDB_ROOT_PASSWORD: $DB_PASSWORD
+    entrypoint:
+      - mongod
+      - --bind_ip_all
+    volumes:
+      - data-db:/data/db
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: on-failure
+
+networks:
+  webnet:
+  backend:
+
+volumes:
+  data-db:

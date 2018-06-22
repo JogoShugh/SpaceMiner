@@ -1,10 +1,53 @@
 {
+  "name": "@space-miner/root",
+  "version": "1.0.0",
+  "description": "SpaceMiner is a tool to help beginner programming students learn JavaScript and programming concepts in face-to-face or remote environments, with peer collaboration and mentor/teacher assistance.",
+  "main": "index.js",
+  "repository": "git@github.com:andrew-codes/SpaceMiner.git",
+  "author": "Josh Gough <jsgough@gmail.com>",
+  "collaborators": [
+    "Andrew Smith <andrew@andrew.codes>"
+  ],
+  "license": "MIT",
+  "private": true,
   "engines": {
-    "node": "4.0.0",
-    "npm": "3.10.5"
+    "node": "^8.5.0 || ^10.0.0",
+    "yarn": "^1.3.0"
+  },
+  "scripts": {
+    "bootstrap": "yarn lerna bootstrap",
+    "lint": "yarn run-eslint '**/*.js'",
+    "test": "cross-env NODE_ENV=test yarn run-jest",
+    "start": "lerna run start --include @space-miner/web --include @space-miner/api --parallel",
+    "start:dev": "cross-env NODE_ENV=development WEB_PORT=9000 API_PORT=9001 lerna run start:dev --include @space-miner/web --include @space-miner/api --parallel",
+    "start:dev:api": "lerna run start:dev --include @space-miner/api",
+    "start:dev:web": "lerna run start:dev --include @space-miner/web",
+    "build": "lerna run build"
+  },
+  "workspaces": [
+    "build/*",
+    "packages/*",
+    "apps/*"
+  ],
+  "optionalDependencies": {
+    "fsevents": "*"
   },
   "dependencies": {
-    "babel-runtime": "^6.23.0",
-    "bcrypt": "^1.0.2"
+    "babel-core": "^6.26.3",
+    "babel-plugin-dynamic-import-webpack": "^1.0.2",
+    "babel-plugin-emotion": "^9.1.2",
+    "babel-plugin-react-hot-loader": "^3.0.0-beta.6",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "cross-env": "^5.1.6",
+    "lerna": "^2.11.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "resolve-from": "^4.0.0",
+    "yallist": "^3.0.2"
   }
 }
